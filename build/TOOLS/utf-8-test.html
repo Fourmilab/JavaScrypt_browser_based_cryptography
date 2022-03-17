@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<title>UTF-8 Encoder/Decoder Test Jig</title>
+<style type="text/css">
+    BODY.main {
+        margin-left: 15%;
+        margin-right: 10%
+    }
+    INPUT.ctr {
+        text-align: center
+    }
+    DIV.bodycopy {
+        margin-left: 15%;
+        margin-right: 10%
+    }
+</style>
+
+<meta name="keywords" content="pass, phrase, generator, encryption, md5, javascript">
+<meta name="description" content="UTF-8 Encoder/Decoder Test Jig">
+<meta name="author" content="John Walker">
+<meta name="robots" content="index">
+
+<!-- Import the external JavaScript modules -->
+<script language="JavaScript" src="utf-8.js"></script>
+<script language="JavaScript" src="../armour.js"></script>
+<script language="JavaScript" src="../aes.js"></script>
+
+<!-- Document-local JanaScript code -->
+<script language="JavaScript">
+<!--
+
+    function EncodeData() {
+        var unicode = document.unicode.text.value;
+        var utf8 = unicode_to_utf8(unicode);
+
+        document.utf8.text.value = utf8;
+    }
+
+    function DecodeData() {
+        var utf8 = document.utf8.text.value;
+        var unicode = utf8_to_unicode(utf8);
+
+        document.unicode.text.value = unicode;
+    }
+    function OEncodeData() {
+        var unicode = document.unicode.text.value;
+        var utf8 = encode_utf8(unicode);
+
+        document.utf8.text.value = utf8;
+    }
+
+    function ODecodeData() {
+        var utf8 = document.utf8.text.value;
+        var unicode = decode_utf8(utf8);
+
+        document.unicode.text.value = unicode;
+    }
+
+    function byteArrayToString(byteArray) {
+        var result = "";
+        for (var i = 0; i < byteArray.length; i++) {
+            result += String.fromCharCode(byteArray[i]);
+        }
+        return result;
+    }
+
+    function stringToByteArray(s) {
+        var b = [];
+
+        for (var i = 0; i < s.length; i++) {
+            b[i] = s.charCodeAt(i);
+        }
+        return b;
+    }
+
+    function toHex() {
+        hexSentinel = hexEndSentinel = "";
+        document.utf8.text.value = armour_hex(stringToByteArray(document.utf8.text.value));
+    }
+
+    function fromHex() {
+        hexSentinel = "?HX?";
+        hexEndSentinel = "?H";
+        document.utf8.text.value = byteArrayToString(disarm_hex(document.utf8.text.value));
+    }
+
+// -->
+</script>
+
+</head>
+
+<body bgcolor="#FFFFFF">
+
+<div class="bodycopy">
+
+<h1>UTF-8 Encoder/Decoder Test Jig</h1>
+
+<hr style="background-color: rgb(192, 192, 192)">
+
+<p>
+
+<form name="unicode">
+
+<center>
+<textarea name="text" wrap="off" rows=12 cols=80 style="border-color: blue; background-color: rgb(255, 255, 192);">
+</textarea>
+
+<br>
+<input type="button" value=" Encode " onClick="EncodeData();">
+&nbsp;
+<input type="button" value=" O-Encode " onClick="OEncodeData();">
+&nbsp;
+<input type="button" value=" Clear " onClick="document.unicode.text.value = '';">
+&nbsp;
+<input type="reset" value=" Reset ">
+&nbsp;
+<input type="button" value=" Select " onClick="document.unicode.text.select();">
+</center>
+</form>
+<p>
+
+<form name="utf8">
+
+<center>
+<textarea name="text" wrap="off" rows=12 cols=80 style="border-color: blue; background-color: rgb(255, 255, 192);">
+</textarea>
+
+<br>
+<input type="button" value=" Decode " onClick="DecodeData();">
+&nbsp;
+<input type="button" value=" O-Decode " onClick="ODecodeData();">
+&nbsp;
+<input type="button" value=" Clear " onClick="document.utf8.text.value = '';">
+&nbsp;
+<input type="reset" value=" Reset ">
+&nbsp;
+<input type="button" value=" Select " onClick="document.utf8.text.select();">
+&nbsp;
+<input type="button" value=" To Hex " onClick="toHex();">
+&nbsp;
+<input type="button" value=" From Hex " onClick="fromHex();">
+</center>
+</form>
+
+<!--
+-->
+                      <h3>Debugging Console</h3>
+
+<form name="debug">
+
+<center>
+<textarea name="log" wrap="off" rows=16 cols=80>
+</textarea>
+<br>
+<input type="button" value=" Clear " onClick="document.debug.log.value = '';">
+&nbsp;
+<input type="button" value=" Test " onClick="TestSomething();">
+</center>
+</form>
+<br>
+<h4><a href="javascript:">JavaScript Console</a></h4>
+
+<script language="JavaScript">
+<!--
+    /*  Test jig for code activated by the "Test" button when the
+        debugging console is activated.  */
+
+    function TestSomething() {
+    }
+
+    /*  Dump one or more (variable_name, value) pairs given as arguments
+        to the function.  */
+
+    function dump()
+    {
+        var t = "", i;
+
+        for (i = 0; i < arguments.length; i += 2) {
+            if (t.length > 0) {
+                t += ", ";
+            }
+            t += arguments[i] + " = " + arguments[i + 1];
+        }
+        document.debug.log.value += t + "\n";
+    }
+// -->
+</script>
+
+<h3><a href="index.html">JavaScrypt Home Page</a></h3>
+
+<h3><a href="http://www.fourmilab.ch/">Fourmilab Home Page</a></h3>
+
+<p>
+<hr>
+<p>
+<address>
+by <a href="http://www.fourmilab.ch/">John Walker</a><br>
+November, 2003
+</address>
+<center>
+<em>This document is in the public domain.</em>
+</center>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,48 @@
+
+From: http://selfaktuell.teamone.de/artikel/javascript/utf8b64/utf8.htm
+
+
+00:        function encode_utf8(rohtext) {
+01:             // dient der Normalisierung des Zeilenumbruchs
+02:             rohtext = rohtext.replace(/\r\n/g,"\n");
+03:             var utftext = "";
+04:             for(var n=0; n<rohtext.length; n++)
+05:                 {
+06:                 // ermitteln des Unicodes des  aktuellen Zeichens
+07:                 var c=rohtext.charCodeAt(n);
+08:                 // alle Zeichen von 0-127 => 1byte
+09:                 if (c<128)
+10:                     utftext += String.fromCharCode(c);
+11:                 // alle Zeichen von 127 bis 2047 => 2byte
+12:                 else if((c>127) && (c<2048)) {
+13:                     utftext += String.fromCharCode((c>>6)|192);
+14:                     utftext += String.fromCharCode((c&63)|128);}
+15:                 // alle Zeichen von 2048 bis 66536 => 3byte
+16:                 else {
+17:                     utftext += String.fromCharCode((c>>12)|224);
+18:                     utftext += String.fromCharCode(((c>>6)&63)|128);
+19:                     utftext += String.fromCharCode((c&63)|128);}
+20:                 }
+21:             return utftext;
+22:         }
+
+00:        function decode_utf8(utftext) {
+01:             var plaintext = ""; var i=0; var c=c1=c2=0;
+02:             // while-Schleife, weil einige Zeichen uebersprungen werden
+03:             while(i<utftext.length)
+04:                 {
+05:                 c = utftext.charCodeAt(i);
+06:                 if (c<128) {
+07:                     plaintext += String.fromCharCode(c);
+08:                     i++;}
+09:                 else if((c>191) && (c<224)) {
+10:                     c2 = utftext.charCodeAt(i+1);
+11:                     plaintext += String.fromCharCode(((c&31)<<6) | (c2&63));
+12:                     i+=2;}
+13:                 else {
+14:                     c2 = utftext.charCodeAt(i+1); c3 = utftext.charCodeAt(i+2);
+15:                     plaintext += String.fromCharCode(((c&15)<<12) | ((c2&63)<<6) | (c3&63));
+16:                     i+=3;}
+17:                 }
+18:             return plaintext;
+19:         }

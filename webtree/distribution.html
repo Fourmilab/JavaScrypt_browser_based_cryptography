@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>JavaScrypt: Source Distribution</title>
+
+<link rel="stylesheet" type="text/css" href="javascrypt.css" />
+
+<style type="text/css">
+    dt {
+        margin-top: 1ex;
+    }
+
+    dd {
+        text-align: justify;
+        width: 90%;
+    }
+
+    .gr {
+        color: #808080;
+    }
+</style>
+
+<meta name="keywords" content="javascrypt, browser, encryption, aes, advanced, system, javascript" />
+<meta name="description" content="JavaScrypt: Source Distribution" />
+<meta name="author" content="John Walker" />
+<meta name="robots" content="noindex" />
+
+<script type="text/javascript" src="externalLinks.js"></script>
+
+</head>
+
+<body onload="externalLinks();">
+
+<h1>JavaScrypt: Source Distribution</h1>
+
+<hr class="h" />
+
+<h2>Downloading and Installing</h2>
+
+<p>
+The JavaScrypt source distribution contains everything you
+need to install JavaScrypt on your own computer.  To install
+a local copy of JavaScrypt which you can use even when not
+connected to the Web, start by downloading the source
+distribution archive.
+</p>
+
+<blockquote>
+    <h4><a href="https://www.fourmilab.ch/javascrypt/javascrypt.zip">Download
+        JavaScrypt Source Distribution</a> (<tt>javascrypt.zip</tt>)</h4>
+</blockquote>
+
+<p>
+This is a Zipped archive; copy it into the newly created
+directory (folder) where you wish to install JavaScrypt,
+then extract the contents with an
+<a href="http://www.info-zip.org/"
+    rel="Target:JavascryptAux">unzip utility</a>.
+Once the files are extracted you may then, if you wish, delete
+the archive.
+</p>
+
+<h2>Running Your Local Copy of JavaScrypt</h2>
+
+<p>
+JavaScrypt works precisely the same whether installed on your
+local computer or accessed over the Web.  The only difference is
+that you use a &ldquo;<tt><b>file:</b></tt>&rdquo; URL to direct
+your browser to the local directory containing JavaScrypt rather
+than an &ldquo;<tt><b>http:</b></tt>&rdquo; URL pointing to a
+Web site.  If you use a Unix (Linux, etc.) machine, and you've
+installed JavaScrypt in a directory named, say,
+&ldquo;<tt>/home/boris/utils/JavaScrypt</tt>&rdquo;, you'd
+launch the JavaScrypt home page with the URL:
+</p>
+
+<blockquote>
+    <p>
+    <tt><b>file:/home/boris/utils/JavaScrypt/index.html</b></tt>
+    </p>
+</blockquote>
+
+<p>
+A Windows user who had installed JavaScrypt in a directory named
+&ldquo;<tt>C:\natasha\myprogs\JavaScrypt</tt>&rdquo; would use a
+URL of:
+</p>
+
+<blockquote>
+    <p>
+    <tt><b>file:/C:/natasha/myprogs/JavaScrypt/index.html</b></tt>
+    </p>
+</blockquote>
+
+<p>
+Note that when using a &ldquo;<tt><b>file:</b></tt>&rdquo; URL
+you must specify the <tt>index.html</tt> home page file name: if
+omitted, you'll see a directory listing, not the home page an
+&ldquo;<tt><b>http:</b></tt>&rdquo; URL would default to.
+</p>
+
+<p>
+From the home page, you can navigate to the other pages just as
+if you were connected to the Web.  You may wish to add bookmarks
+to the local &ldquo;<tt><b>file:</b></tt>&rdquo; URL so you
+don't have to type it in every time you wish to run JavaScrypt.
+</p>
+
+<h2>Contents of the Source Distribution</h2>
+
+<p>
+Files included in the source distribution are as follows.
+Files with names in <span class="gr">grey type</span>
+are development tools, test programs, documentation, and
+other ancillaries which are not part of the user
+JavaScrypt package.
+</p>
+
+<dl>
+<dt><b><tt>aes.js</tt></b></dt>
+    <dd>Advanced Encryption Standard (AES) implementation.</dd>
+
+<dt><b><tt>aesprng.js</tt></b></dt>
+    <dd>Pseudorandom number generator based on AES
+        encryption.</dd>
+
+<dt><b><tt class="gr">aesprng_test.html</tt></b></dt>
+    <dd>Page which permits testing <tt>aesprng.js</tt> by generating
+        pseudorandom sequences suitable for evaluation with
+        the
+        <a href="https://www.fourmilab.ch/xd/"
+            rel="Target:JavascryptAux">XD</a>
+        and
+        <a href="https://www.fourmilab.ch/random/"
+            rel="Target:JavascryptAux">ENT</a>
+        programs.</dd>
+
+<dt><b><tt>armour.js</tt></b></dt>
+    <dd>Utilities to &ldquo;armour&rdquo; binary data as various
+        forms of ASCII text, and to &ldquo;disarm&rdquo;
+        (decode) such text into the original binary.</dd>
+
+<dt><b><tt class="gr">distribution.html</tt></b></dt>
+    <dd>This file.</dd>
+
+<dt><b><tt>entropy.js</tt></b></dt>
+    <dd>Tools for &ldquo;entropy collection&ldquo;, which
+        monitor events (time and date, mouse motion, key
+        presses) etc. to create a difficult-to-guess seed for
+        pseudorandom sequence generation.</dd>
+
+<dt><b><tt>example.html</tt></b></dt>
+    <dd>JavaScrypt tutorial.</dd>
+
+<dt><b><tt>externalLinks.js</tt></b></dt>
+    <dd>Utility to specify target of external links in
+        XHTML 1.0 Strict documents.</dd>
+
+<dt><b><tt>index.html</tt></b></dt>
+    <dd>JavaScrypt home page.</dd>
+
+<dt><b><tt>javascrypt.css</tt></b></dt>
+    <dd>CSS style sheet for the JavaScrypt HTML files.</dd>
+
+<dt><b><tt>javascrypt.html</tt></b></dt>
+    <dd>Encryption/Decryption page.</dd>
+
+<dt><b><tt>jscrypt.html</tt></b></dt>
+    <dd>&ldquo;Lean&rdquo; version of the Encryption/Decryption
+        page. This version is created from
+        <tt>javascrypt.html</tt> by embedding all the external
+        JavaScript and CSS files it references, removing
+        explanatory text, and compressing the JavaScript code by
+        eliding comments and nonessential white space.</dd>
+
+<dt><b><tt>jscrypt.js</tt></b></dt>
+    <dd>JavaScript functions used by the Encryption/Decryption
+        page.</dd>
+
+<dt><b><tt>lecuyer.js</tt></b></dt>
+    <dd>Pseudorandom number generator based on L'Ecuyer's
+        modular algorithm with a Bays-Durham shuffle.  Used
+        for non-security-related pseudorandom sequence generation.</dd>
+
+<dt><b><tt class="gr">log.html</tt></b></dt>
+    <dd>Development log.</dd>
+
+<dt><b><tt>md5.js</tt></b></dt>
+    <dd>JavaScript implementation of the MD5 message digest
+        algorithm.</dd>
+
+<dt><b><tt>pass_phrase.html</tt></b></dt>
+    <dd>Pass Phrase Generator page.</dd>
+
+<dt><b><tt>sha256.js</tt></b></dt>
+    <dd>JavaScript implementation of the SHA-224 and SHA-256
+        hashing algorithms.</dd>
+
+<dt><b><tt>stegodict.js</tt></b></dt>
+    <dd>Dictionary for Steganography page (<tt>stego.html</tt>).
+        The dictionary is compressed by sorting words by length
+        and concatenating into strings of equal length with no
+        delimiters between words.</dd>
+
+<dt><b><tt>stego.html</tt></b></dt>
+    <dd>Steganography page.</dd>
+
+<dt><b><tt>utf-8.js</tt></b></dt>
+    <dd>Utilities for encoding and decoding
+        <a href="http://www.unicode.org/"
+            rel="Target:JavascryptAux">Unicode</a>
+        strings in the
+        <a href="http://www.ietf.org/rfc/rfc2279.txt"
+            rel="Target:JavascryptAux">UTF-8</a>
+        byte stream representation.</dd>
+
+<dt><b><tt>wordtab.js</tt></b></dt>
+    <dd>Dictionary of words used by the Pass Phrase Generator
+        (<tt>pass_phrase.html</tt>). The dictionary is
+        compressed by sorting words by length and concatenating
+        into strings of equal length with no delimiters between
+        words.  The dictionary differs from that in
+        <tt>stegodict.js</tt> in excluding words longer than 8
+        characters.</dd>
+
+</dl>
+
+<h3><a href="index.html">Back to JavaScrypt</a></h3>
+
+<p />
+<hr />
+<p />
+
+<table class="footer">
+<tr>
+<td class="left">
+by <a href="https://www.fourmilab.ch/">John Walker</a><br />
+December, 2005<br />
+Updated: March, 2018
+</td>
+
+<td class="right">
+    <table class="buttons">
+    <tr><td>
+    <a href="http://validator.w3.org/check?uri=https://www.fourmilab.ch/javascrypt/distribution.html"
+       rel="Target:JavascryptAux" class="i"><img class="button"
+       src="https://www.fourmilab.ch/images/icons/valid-xhtml10.png"
+       alt="Valid XHTML 1.0" height="31" width="88" /></a>
+   </td></tr>
+   </table>
+</td>
+</tr>
+</table>
+
+<p class="c">
+<em>This document is in the public domain.</em>
+</p>
+
+</body>
+</html>

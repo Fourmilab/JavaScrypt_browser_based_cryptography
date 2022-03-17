@@ -1,0 +1,311 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--************************************************************************-->
+<!--* JavaScript Crunchinator Demo                                         *-->
+<!--*                                                                      *-->
+<!--* Copyright 2001 by Mike Hall                                          *-->
+<!--* Please see http://www.brainjar.com for terms of use.                 *-->
+<!--************************************************************************-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>BrainJar.com: JavaScript Crunchinator Demo</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<link href="/common/default.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+
+/* Superfluous stylings for the form. */
+
+input, textarea {
+  background-color: #d0f0f0;
+  border-color: #00d0d0;
+  border-width: 2px;
+  padding: 2px;
+  scrollbar-base-color: #00d0d0;
+}
+
+input.button {
+  background-color: #00d0d0;
+  border-color: #00d0d0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+  font-weight: bold;
+  padding: 0px;
+  width: 5em;
+}
+
+table {
+  border-color: #00f0f0 #009090 #009090 #00f0f0;
+  border-style: solid;
+  border-width: 2px;
+  background-color: #00c0c0;
+  padding: 4px;
+}
+
+td, th {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10pt;
+}
+
+th {
+  background-color: #008080;
+  border-color: #000000;
+  border-style: solid;
+  border-width: 1px;
+  color: #ffffff;
+  padding-left: 8px;
+  padding-right: 8px;
+  text-align: left;
+  width: auto;
+}
+
+</style>
+<script type="text/javascript">//<![CDATA[
+
+//*****************************************************************************
+// Do not remove this notice.
+//
+// Copyright 2001 by Mike Hall.
+// See http://www.brainjar.com for terms of use.
+//*****************************************************************************
+
+var literalStrings;  // For temporary storage of literal strings.
+
+var lineLength = 80; // Approximate line length for split
+
+function crunch(f) {
+
+  var input, output;
+  var i;
+
+  // Get input script code, process it and display output.
+
+  f.elements.codeOut.value = "";
+  f.elements.statusMsg.value = "Working...";
+  input = f.elements.codeIn.value;
+  output = input;
+  f.elements.statusMsg.value = "Replacing literal strings...";
+  output = replaceLiteralStrings(output);
+  f.elements.statusMsg.value = "Removing comments...";
+  output = removeComments(output);
+  f.elements.statusMsg.value = "Compressing white space...";
+  output = compressWhiteSpace(output);
+  f.elements.statusMsg.value = "Combining literal strings...";
+  output = combineLiteralStrings(output);
+  if (lineLength > 0) {
+    f.elements.statusMsg.value = "Splitting into lines...";
+    output = splitIntoLines(output);
+  }
+  f.elements.statusMsg.value = "Restoring literal strings...";
+  output = restoreLiteralStrings(output);
+  f.elements.statusMsg.value = "Done.";
+  f.elements.codeOut.value = output;
+
+  // Compute sizes.
+
+  f.elements.sizeIn.value   = input.length;
+  f.elements.sizeOut.value  = output.length;
+  f.elements.sizeDiff.value = input.length - output.length;
+  if (input.length > 0)
+    f.elements.pctOut.value = 100 -
+      Math.round(output.length / input.length * 10000) / 100;
+
+  return false;
+}
+
+function replaceLiteralStrings(s) {
+
+  var i, c, t, lines, escaped, quoteChar, inQuote, literal;
+
+  literalStrings = new Array();
+  t = "";
+
+  // Split script into individual lines.
+
+  lines = s.split("\n");
+  for (i = 0; i < lines.length; i++) {
+
+    j = 0;
+    inQuote = false;
+    while (j <= lines[i].length) {
+      c = lines[i].charAt(j);
+
+      // If not already in a string, look for the start of one.
+
+      if (!inQuote) {
+        if (c == '"' || c == "'") {
+          inQuote = true;
+          escaped = false;
+          quoteChar = c;
+          literal = c;
+        }
+       else
+         t += c;
+      }
+
+      // Already in a string, look for end and copy characters.
+
+      else {
+        if (c == quoteChar && !escaped) {
+          inQuote = false;
+          literal += quoteChar;
+          t += "__" + literalStrings.length + "__";
+          literalStrings[literalStrings.length] = literal;
+        }
+        else if (c == "\\" && !escaped)
+          escaped = true;
+        else
+          escaped = false;
+        literal += c;
+      }
+      j++;
+    }
+    t += "\n";
+  }
+
+  return t;
+}
+
+function removeComments(s) {
+
+  var lines, i, t;
+
+  // Remove '//' comments from each line.
+
+  lines = s.split("\n");
+  t = "";
+  for (i = 0; i < lines.length; i++)
+    t += lines[i].replace(/([^\x2f]*)\x2f\x2f.*$/, "$1");
+
+  // Replace newline characters with spaces.
+
+  t = t.replace(/(.*)\n(.*)/g, "$1 $2");
+
+  // Remove '/* ... */' comments.
+
+  lines = t.split("*/");
+  t = "";
+  for (i = 0; i < lines.length; i++)
+    t += lines[i].replace(/(.*)\x2f\x2a(.*)$/g, "$1 ");
+
+  return t;
+}
+
+function compressWhiteSpace(s) {
+
+  // Condense white space.
+
+  s = s.replace(/\s+/g, " ");
+  s = s.replace(/^\s(.*)/, "$1");
+  s = s.replace(/(.*)\s$/, "$1");
+
+  // Remove uneccessary white space around operators, braces and parentheses
+
+  s = s.replace(/\s([\x21\x25\x26\x28\x29\x2a\x2b\x2c\x2d\x2f\x3a\x3b\x3c\x3d\x3e\x3f\x5b\x5d\x5c\x7b\x7c\x7d\x7e])/g, "$1");
+  s = s.replace(/([\x21\x25\x26\x28\x29\x2a\x2b\x2c\x2d\x2f\x3a\x3b\x3c\x3d\x3e\x3f\x5b\x5d\x5c\x7b\x7c\x7d\x7e])\s/g, "$1");
+  return s;
+}
+
+function combineLiteralStrings(s) {
+
+  var i;
+
+  s = s.replace(/"\+"/g, "");
+  s = s.replace(/'\+'/g, "");
+
+  return s;
+}
+
+function splitIntoLines(s) {
+    var t = "", i, j, k, l, n;
+
+    while (s.length > lineLength) {
+        n = lineLength;
+        i = -1;
+        while ((i <= 0) && (n < s.length)) {
+            i = s.lastIndexOf(";", n);
+            j = s.lastIndexOf(",", n);
+            k = s.lastIndexOf(")", n);
+            l = s.lastIndexOf("}", n);
+            i = Math.max(i, Math.max(j, Math.max(k, l)));
+            n++;
+        }
+        if (i <= 0) {
+            break;
+        }
+        t += s.substring(0, i + 1) + "\n";
+        s = s.substring(i + 1, s.length);
+    }
+    if (s.length > 0) {
+        t += s + "\n";
+    }
+    return t;
+}
+
+function restoreLiteralStrings(s) {
+
+  var i;
+
+  for (i = 0; i < literalStrings.length; i++)
+    s = s.replace(new RegExp("__" + i + "__"), literalStrings[i]);
+
+  return s;
+}
+
+//]]></script>
+</head>
+<body>
+
+<div id="demoBox">
+
+<h3>JavaScript Crunchinator Demo</h3>
+
+<p>You can condense JavaScript code using the form below. Just cut and paste
+any script code into the text area marked 'Input', press the 'Crunch' button
+and the condensed version will appear under 'Output.'</p>
+
+<p>You can then use the 'Select' button to quickly highlight the output for
+easy cut and paste into a new source file.</p>
+
+<p>Use your browser's <code>View Source</code> option to see the full source
+code.</p>
+
+</div>
+
+<p></p>
+
+<form action="" onsubmit="return crunch(this)">
+
+<table border="0">
+<tr>
+  <th colspan="3">Input</th>
+</tr>
+<tr>
+  <td colspan="3"><textarea name="codeIn" rows="10" cols="80"></textarea></td>
+</tr>
+<tr>
+  <td><b>Bytes:</b>  <input name="sizeIn"    type="text" size="10" disabled="disabled" /></td>
+  <td><b>Status:</b> <input name="statusMsg" type="text" size="30" disabled="disabled" /></td>
+  <td style="text-align:right;"><input class="button" type="submit" value="Crunch" /> <input class="button" type="reset" value="Clear" /></td>
+</tr>
+</table>
+
+<p></p>
+
+<table border="0">
+<tr>
+  <th colspan="4">Output</th>
+</tr>
+<tr>
+  <td colspan="4"><textarea name="codeOut" rows="10" cols="80"></textarea></td>
+</tr>
+<tr>
+  <td><b>Bytes:</b>   <input name="sizeOut"  type="text" size="10" disabled="disabled" /></td>
+  <td><b>Saved:</b>   <input name="sizeDiff" type="text" size="10" disabled="disabled" /></td>
+  <td><b>% Saved:</b> <input name="pctOut"   type="text" size="10" disabled="disabled" /></td>
+  <td style="text-align:right;"><input class="button" type="button" value="Select" onclick="this.form.codeOut.select();this.form.codeOut.focus();" /></td>
+</tr>
+</table>
+
+</form>
+
+</body>
+</html>

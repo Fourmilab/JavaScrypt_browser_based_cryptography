@@ -1,0 +1,98 @@
+
+    /* Style definition for JavaScrypt documents */
+
+    body {
+        margin-left: 15%;
+        margin-right: 10%;
+        background-color: #FFFFFF;
+        color: #000000;
+    }
+
+    a:link, a:visited {
+        background-color: inherit;
+        color: rgb(0%, 0%, 80%);
+        text-decoration: none;
+    }
+
+    a:hover  {
+        background-color:  rgb(30%, 30%, 100%);
+        color: rgb(100%, 100%, 100%);
+    }
+
+    a:active {
+        color: rgb(100%, 0%, 0%);
+        background-color:  rgb(30%, 30%, 100%);
+    }
+
+    a.i:link, a.i:visited, a.i:hover {
+        background-color:  inherit;
+        color: inherit;
+        text-decoration: none;
+    }
+
+    h3.nav {
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+
+    hr.h {
+        background-color: #C0C0C0;
+        color: #000000;
+    }
+
+    img.button {
+        border: 0px;
+        vertical-align: middle;
+    }
+
+    p {
+        text-align: justify;
+    }
+
+    p.citation {
+        margin-top: 0pt;
+        text-align: right;
+    }
+
+    p.quotation {
+        margin-bottom: 0px;
+    }
+
+    .subsuper sub, .subsuper sup {
+        line-height: 0px;
+    }
+
+    table.footer {
+        width: 100%;
+    }
+
+    table.footer td.left {
+        width: 50%;
+        text-align: left;
+        font-style: italic;
+        vertical-align: top;
+    }
+
+    table.footer td.right {
+        width: 50%;
+        text-align: right;
+        vertical-align: top;
+    }
+
+    table.footer table.buttons {
+        margin-left: auto;
+    }
+
+    table.footer table.buttons td {
+        text-align: center;
+    }
+
+    ul.pspace li {
+        margin-top: 1ex;
+        text-align: justify;
+        width: 90%;
+    }
+
+    .c {
+        text-align: center;
+    }
